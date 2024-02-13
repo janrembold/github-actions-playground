@@ -1,0 +1,38 @@
+name: Release Workflow
+
+on:
+  workflow_dispatch:
+    inputs:
+      target_branch:
+        description: "Select the environment to deploy"
+        type: choice
+        required: true
+        default: ""
+        options:
+          - release
+          - staging
+          - develop
+      service:
+        description: "Select services to deploy"
+        type: choice
+        required: true
+        default: "All"
+        options:
+          - All
+          - Frontend
+          - MailService
+          - UserService
+      dry:
+        description: "Dry run"
+        type: boolean
+        required: false
+        default: true
+
+jobs:
+  echo_hello_world:
+    name: Hello World
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Hello World
+        run: echo "Hello World, ${{ github.event.inputs.target_branch }}, ${{ github.event.inputs.service }}, ${{ github.event.inputs.dry }}"
