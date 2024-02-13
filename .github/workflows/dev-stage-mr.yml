@@ -1,0 +1,22 @@
+name: Create Stage Merge Requests
+
+on:
+  push:
+    branches:
+      - dev
+
+jobs:
+  create-merge-request:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Create or update pull request
+        run: |
+          existing_pr=$(gh pr list --base stage --json number,headRefName --jq ".[] | select(.headRefName == \"dev\") | .number")
+          if [ -z "$existing_pr" ]; then
+            gh pr create -B stage -H dev --title 'Merge dev into stage' --body 'Created by Github action'
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
