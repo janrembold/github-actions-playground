@@ -7,7 +7,7 @@ We have the following protected branches:
 - stage
 - main
 
-All other feature or fix branches should be created from `dev` branch.
+All feature or fix branches should be created from `dev` branch.
 
 ## Create Stage MR
 
