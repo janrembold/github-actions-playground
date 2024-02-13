@@ -1,0 +1,23 @@
+name: Create Stage Merge Requests
+
+on:
+  push:
+    branches:
+      - dev
+
+jobs:
+  create-merge-request:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Create or update pull request
+        uses: peter-evans/create-pull-request@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          base: stage
+          branch: dev
+          title: Merge from dev to stage
+          delete-branch: false
+          draft: false
