@@ -9,6 +9,6 @@ We have the following protected branches:
 
 All other feature or fix branches should be created from `dev` branch.
 
-## Create MRs for protected branches
+## Create Stage MR
 
-Create a new MR to the next level if any code was merged into [](./.github/workflows/merge-requests.yml)
+Create a new MR from dev to stage if any code was merged into dev
