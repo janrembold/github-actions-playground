@@ -16,5 +16,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          pr_number=$(gh pr create -B release -H stage --title 'Merge stage into release' --body 'Created by Github action' --json number --jq .number)
+          gh pr create -B release -H stage --title 'Merge stage into release' --body 'Created by Github action'
+          pr_number=$(gh pr view https://github.com/${{ github.repository }}/pull/ --json number --jq '.number')
+          echo $pr_number
           gh pr merge $pr_number --auto --merge
