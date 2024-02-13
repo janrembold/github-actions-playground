@@ -16,8 +16,8 @@ jobs:
         uses: peter-evans/create-pull-request@v3
         with:
           # token: ${{ secrets.GITHUB_TOKEN }}
-          base: stage
-          branch: dev
+          # base: stage
+          branch: stage
           title: Merge from dev to stage
           delete-branch: false
           draft: false
