@@ -1,0 +1,38 @@
+name: Create Merge Requests
+
+on:
+  push:
+    branches:
+      - dev
+      - stage
+
+jobs:
+  create-merge-request:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Create Merge Request
+        id: create_mr
+        run: |
+          if [ ${{ github.ref }} == 'refs/heads/dev' ]; then
+            hub api -X POST /repos/:owner/:repo/pulls -F "base=stage" -F "head=dev" -F "title=Merge from develop to stage" | jq '.number' > mr_number.txt
+          elif [ ${{ github.ref }} == 'refs/heads/stage' ]; then
+            hub api -X POST /repos/:owner/:repo/pulls -F "base=main" -F "head=stage" -F "title=Merge from stage to main" | jq '.number' > mr_number.txt
+          fi
+
+      - name: Check if MR was created
+        id: check_mr
+        run: |
+          if [ -s mr_number.txt ]; then
+            echo "Merge request created"
+            exit 1
+          else
+            echo "No merge request created"
+            exit 0
+          fi
+
+      - name: Cleanup
+        run: |
+          rm mr_number.txt
