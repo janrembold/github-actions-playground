@@ -13,11 +13,6 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Create or update pull request
-        uses: peter-evans/create-pull-request@v3
-        with:
-          # token: ${{ secrets.GITHUB_TOKEN }}
-          # base: stage
-          branch: stage
-          title: Merge from dev to stage
-          delete-branch: false
-          draft: false
+        run: gh pr create -B stage -H dev --title 'Merge dev into stage' --body 'Created by Github action'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
