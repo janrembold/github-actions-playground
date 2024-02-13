@@ -19,5 +19,5 @@ jobs:
           existing_pr=$(gh pr list --base main --json number,headRefName --jq ".[] | select(.headRefName == \"stage\") | .number")
           if [ -z "$existing_pr" ]; then
             gh pr create -B main -H stage --title 'Merge stage into main' --body 'Created by Github action'
-            gh pr merge --auto
+            gh pr merge --auto --merge
           fi
