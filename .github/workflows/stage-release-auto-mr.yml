@@ -23,6 +23,4 @@ jobs:
           if [ -z "$existing_pr" ]; then
             gh pr create -B main -H stage --title 'Merge stage into main' --body 'Created by Github action'
             gh pr merge --auto --merge
-            git tag stage-$TIMESTAMP
-            git push origin stage-$TIMESTAMP
           fi
