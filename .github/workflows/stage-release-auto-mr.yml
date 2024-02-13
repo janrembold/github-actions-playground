@@ -12,6 +12,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Set up env
+        run: echo "TIMESTAMP=$(date +'%Y%m%d-%H%M%S')" >> $GITHUB_ENV
+
       - name: Create pull request and auto-merge to release if possible
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -20,4 +23,6 @@ jobs:
           if [ -z "$existing_pr" ]; then
             gh pr create -B main -H stage --title 'Merge stage into main' --body 'Created by Github action'
             gh pr merge --auto --merge
+            git tag stage-$TIMESTAMP
+            git push origin stage-$TIMESTAMP
           fi
