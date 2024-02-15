@@ -42,7 +42,7 @@ jobs:
           export SERVICE_XY_TAG=foobar
 
       - name: Dry run
-        if: ${{ github.event.inputs.dry == true }}
+        if: ${{ github.event.inputs.dry == 'true' }}
         run: |
           echo "Dry run is true, exiting"
           exit 0
