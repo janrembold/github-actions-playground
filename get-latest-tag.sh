@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# - GH_TOKEN is mandatory
+# - GITHUB_TOKEN is mandatory
 # - set ORG to the organization name in the curl URL
 # run like this: 
 # source ./get-latest-tag.sh url_encoded_package_name FOO_BAR
@@ -19,14 +19,14 @@ response=$(curl -L -H "Accept: application/vnd.github+json" -H "Authorization: B
 is_array_of_objects=$(echo "$response" | jq 'if type=="array" then all(.[]; type=="object") else false end')
 
 if [ "$is_array_of_objects" = "true" ]; then
+
   latest_tag=$(echo "$response" | jq -r '.[] | select(.metadata.container.tags[] | contains("latest")) | .metadata.container.tags[] | select(startswith("release_"))')
+  echo "$tag=$latest_tag" | tee -a $GITHUB_ENV
 
-  export "$tag"="$latest_tag"
-  export BAZ=123456
-
-  echo $tag
-  echo $latest_tag
 else
+
   echo "The response is not valid"
   echo $response
+  exit 1
+
 fi
