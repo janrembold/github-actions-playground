@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# - GH_TOKEN is mandatory
+# - GITHUB_TOKEN is mandatory
 # - set ORG to the organization name in the curl URL
 # run like this: 
 # source ./get-latest-tag.sh url_encoded_package_name FOO_BAR
@@ -28,5 +28,5 @@ else
   echo "The response is not valid"
   echo $response
   exit 1
-  
+
 fi
