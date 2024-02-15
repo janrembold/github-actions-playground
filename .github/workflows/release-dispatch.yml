@@ -7,7 +7,7 @@ on:
         description: "Select the environment to deploy"
         type: choice
         required: true
-        default: ""
+        default: "release"
         options:
           - release
           - staging
@@ -42,13 +42,13 @@ jobs:
           export SERVICE_XY_TAG=foobar
 
       - name: Dry run
-        if: ${{ github.event.inputs.dry == 'true' }}
+        if: ${{ github.event.inputs.dry == true }}
         run: |
           echo "Dry run is true, exiting"
           exit 0
 
       - name: Dynamically create and launch k8s configs
-        with:
+        env:
           SERVICE_XY_TAG: ${{ steps.tags.outputs.SERVICE_XY_TAG }}
         run: |
           echo $SERVICE_XY_TAG
