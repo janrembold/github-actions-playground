@@ -50,10 +50,12 @@ jobs:
           echo $SERVICE_XY_TAG
           echo $FOO_BAR
 
-          if [ "${{ github.event.inputs.service }}" = "Frontend" || [ "${{ github.event.inputs.service }}" = "All" ]; then
+          SERVICE="${{ github.event.inputs.service }}"
+
+          if [ "$SERVICE" = "Frontend" ] || [ "$SERVICE" = "All" ]; then
             echo "Always deploy this service"
           fi
 
-          if [ "${{ github.event.inputs.service }}" = "Frontend" ]; then
+          if [ "$SERVICE" = "Frontend" ]; then
             echo "Only deploy frontend service"
           fi
