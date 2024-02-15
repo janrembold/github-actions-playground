@@ -6,6 +6,6 @@ if [ -z "$1" ]; then
 fi
 
 tag=$1
-value="foobar"
+value="baz"
 
-echo "$tag=$value" >> $GITHUB_ENV
+echo "$tag=$value" | tee -a $GITHUB_ENV
