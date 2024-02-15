@@ -34,13 +34,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - uses: actions/checkout@v4
+
       - name: Collect all docker image tags
         id: tags
         run: |
           echo "Release settings: ${{ github.event.inputs.target_branch }}, ${{ github.event.inputs.service }}, ${{ github.event.inputs.dry }}"
           # source ./get-latest-tag.sh some_url_encoded_docker_package SERVICE_XY_TAG
           echo "SERVICE_XY_TAG=foobar" >> $GITHUB_ENV
-          source test-export.sh FOO_BAR
+          source ./test-export.sh FOO_BAR
 
       - name: Dynamically create and launch k8s configs
         if: ${{ github.event.inputs.dry != 'true' }}
