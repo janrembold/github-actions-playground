@@ -7,7 +7,7 @@ on:
         description: "Select the environment to deploy"
         type: choice
         required: true
-        default: ""
+        default: "release"
         options:
           - release
           - staging
@@ -39,16 +39,11 @@ jobs:
         run: |
           echo "Release settings: ${{ github.event.inputs.target_branch }}, ${{ github.event.inputs.service }}, ${{ github.event.inputs.dry }}"
           # source ./get-latest-tag.sh some_url_encoded_docker_package SERVICE_XY_TAG
-          export SERVICE_XY_TAG=foobar
-
-      - name: Dry run
-        if: ${{ github.event.inputs.dry == 'true' }}
-        run: |
-          echo "Dry run is true, exiting"
-          exit 0
+          echo "SERVICE_XY_TAG=foobar" >> $GITHUB_ENV
+          source ./test-export.sh FOO_BAR
 
       - name: Dynamically create and launch k8s configs
-        with:
-          SERVICE_XY_TAG: ${{ steps.tags.outputs.SERVICE_XY_TAG }}
+        if: ${{ github.event.inputs.dry != 'true' }}
         run: |
           echo $SERVICE_XY_TAG
+          echo $FOO_BAR
